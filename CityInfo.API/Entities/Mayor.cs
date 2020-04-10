@@ -7,24 +7,18 @@ using System.Threading.Tasks;
 
 namespace CityInfo.API.Entities
 {
-    public class City
+    public class Mayor
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
 
-        [MaxLength(200)]
-        public string Description { get; set; }
+        public int Age { get; set; }
 
-        
-
-        [ForeignKey("MayorId")]
-        public Mayor Mayor{ get; set; }
-
-        public int MayorId { get; set; }
+        public ICollection<City> City { get; set; }
+               = new List<City>();
     }
 }
