@@ -10,6 +10,7 @@ namespace CityInfo.API.Contexts
 	public class CityInfoContext : DbContext
 	{
 		public DbSet<City> City { get; set; }
+		public DbSet<Mayor> Mayor { get; set; }
 		public DbSet<PointOfInterest> PointsOfInterest { get; set; }
 
 		public CityInfoContext(DbContextOptions<CityInfoContext> options)
@@ -20,6 +21,21 @@ namespace CityInfo.API.Contexts
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			modelBuilder.Entity<Mayor>()
+				 .HasData(
+				new Mayor()
+				{
+					Id = 1,
+					Name = "Mayor Isko Moreno",
+					Age  = 45,
+				},
+				new Mayor()
+				{
+					Id = 2,
+					Name = "Mayor Vico Sotto",
+					Age = 30,
+				});
+
 			modelBuilder.Entity<City>()
 				 .HasData(
 				new City()
