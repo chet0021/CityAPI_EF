@@ -3,14 +3,16 @@ using CityInfo.API.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CityInfo.API.Migrations
 {
     [DbContext(typeof(CityInfoContext))]
-    partial class CityInfoContextModelSnapshot : ModelSnapshot
+    [Migration("20200410075435_MayorMigration")]
+    partial class MayorMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,12 +35,39 @@ namespace CityInfo.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities");
+                    b.ToTable("City");
 
                     b.HasData(
                         new { Id = 1, Description = "Business center in the North", Name = "Pasig City" },
                         new { Id = 2, Description = "Shopping capital", Name = "Makati City" },
                         new { Id = 3, Description = "Capital of the Philippines", Name = "Manila" }
+                    );
+                });
+
+            modelBuilder.Entity("CityInfo.API.Entities.Mayor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Age");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("NickName")
+                        .HasMaxLength(20);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Mayor");
+
+                    b.HasData(
+                        new { Id = 1, Age = 45, Name = "Francisco Moreno Domagoso", NickName = "Isko" },
+                        new { Id = 2, Age = 50, Name = "Maria Josefina Tanya Belmonte Alimurung", NickName = "Joy" },
+                        new { Id = 3, Age = 30, Name = "Victor María Regis Nubla Sotto", NickName = "Vico" },
+                        new { Id = 4, Age = 44, Name = "Mar - len Abigail Binay - Campos", NickName = "Abby" }
                     );
                 });
 
