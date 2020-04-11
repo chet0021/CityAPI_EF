@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CityInfo.API.Models
 {
-	public class CityDto
+	public class MayorDTO
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }

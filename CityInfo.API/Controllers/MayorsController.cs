@@ -10,26 +10,24 @@ using System.Threading.Tasks;
 
 namespace CityInfo.API.Controllers
 {
-	[ApiController]
-	[Route("api/cities")]
-	public class CitiesController : ControllerBase
-	{
-		private readonly IMayorInfoRepository _cityInfoRepository;
+    public class MayorsController : ControllerBase
+    {
+		private readonly IMayorInfoRepository _mayorInfoRepository;
 		private readonly IMapper _mapper;
 
-		public CitiesController(IMayorInfoRepository cityInfoRepository,
+		public MayorsController(IMayorInfoRepository mayorInfoRepository,
 			IMapper mapper)
 		{
-			_cityInfoRepository = cityInfoRepository ??
-				throw new ArgumentNullException(nameof(cityInfoRepository));
+			_mayorInfoRepository = mayorInfoRepository ??
+				throw new ArgumentNullException(nameof(mayorInfoRepository));
 			_mapper = mapper ??
 				throw new ArgumentNullException(nameof(mapper));
 		}
 
-		[HttpGet(Name = "GetCities")]
+		[HttpGet(Name = "GetMayors")]
 		public IActionResult GetCities()
 		{
-			var cityEntities = _cityInfoRepository.GetCities();
+			var cityEntities = _mayorInfoRepository.GetCities();
 
 			//var results = new List<CityWithoutPointsOfInterestDto>();
 
@@ -49,7 +47,7 @@ namespace CityInfo.API.Controllers
 		[HttpGet("{id}")]
 		public IActionResult GetCity(int id, bool includePointsOfInterest = false)
 		{
-			var city = _cityInfoRepository.GetCity(id, includePointsOfInterest);
+			var city = _mayorInfoRepository.GetCity(id, includePointsOfInterest);
 
 			if (city == null)
 			{
@@ -69,9 +67,9 @@ namespace CityInfo.API.Controllers
 		{
 			try
 			{
-				var entityCity = _mapper.Map<City>(cityDTO);
-				_cityInfoRepository.CreateCity(entityCity);
-				_cityInfoRepository.Save();
+				var entityMayor = _mapper.Map<Mayor>(cityDTO);
+				_mayorInfoRepository.CreateCity(entityMayor);
+				_mayorInfoRepository.Save();
 				return Ok();
 			}
 			catch (Exception ex)
@@ -81,19 +79,19 @@ namespace CityInfo.API.Controllers
 
 		}
 
-		[HttpPut("{cityID}")]
-		public IActionResult UpdateCity(int cityID, [FromBody] CityDetailsDto cityDTO)
+		[HttpPut("{mayorID}")]
+		public IActionResult UpdateCity(int mayorID, [FromBody] CityDetailsDto cityDTO)
 		{
 			try
 			{
-				var entityCity = _cityInfoRepository.GetCity(cityID, false);
+				var entityCity = _mayorInfoRepository.GetCity(mayorID, false);
 				if (entityCity == null)
 				{
 					return NotFound();
 				}
 				_mapper.Map(cityDTO, entityCity);
-				_cityInfoRepository.UpdateCity(cityID, entityCity);
-				_cityInfoRepository.Save();
+				_mayorInfoRepository.UpdateCity(mayorID, entityCity);
+				_mayorInfoRepository.Save();
 				return Ok();
 			}
 			catch (Exception ex)
@@ -102,13 +100,13 @@ namespace CityInfo.API.Controllers
 			}
 		}
 
-		[HttpDelete("{cityID}")]
-		public IActionResult DeleteCity(int cityID)
+		[HttpDelete("{mayorID}")]
+		public IActionResult DeleteCity(int mayorID)
 		{
 			try
 			{
-				_cityInfoRepository.DeleteCity(cityID);
-				_cityInfoRepository.Save();
+				_mayorInfoRepository.DeleteCity(mayorID);
+				_mayorInfoRepository.Save();
 				return Ok();
 			}
 			catch (Exception ex)
@@ -117,7 +115,6 @@ namespace CityInfo.API.Controllers
 			}
 
 		}
-
 
 	}
 }
