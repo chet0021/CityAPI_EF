@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CityInfo.API.Services
 {
-    public interface ICityInfoRepository
+    public interface IMayorInfoRepository
     {
         IEnumerable<City> GetCities();
 
@@ -30,5 +30,6 @@ namespace CityInfo.API.Services
 
 		void UpdateCity(int cityID, City city);
 		void DeleteCity(int cityID);
-	}
+        void CreateCity(Mayor entityMayor);
+    }
 }

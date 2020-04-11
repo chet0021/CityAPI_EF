@@ -17,11 +17,11 @@ namespace CityInfo.API.Controllers
     {
         private readonly ILogger<PointsOfInterestController> _logger;
         private readonly IMailService _mailService;
-        private readonly ICityInfoRepository _cityInfoRepository;
+        private readonly IMayorInfoRepository _cityInfoRepository;
         private readonly IMapper _mapper;
 
         public PointsOfInterestController(ILogger<PointsOfInterestController> logger,
-            IMailService mailService, ICityInfoRepository cityInfoRepository,
+            IMailService mailService, IMayorInfoRepository cityInfoRepository,
             IMapper mapper)
         {
             _logger = logger ?? 

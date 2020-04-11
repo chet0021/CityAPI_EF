@@ -54,7 +54,7 @@ namespace CityInfo.API
                 o.UseSqlServer(connectionString);
             });
 
-            services.AddScoped<ICityInfoRepository, CityInfoRepository>();
+            services.AddScoped<IMayorInfoRepository, CityInfoRepository>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }

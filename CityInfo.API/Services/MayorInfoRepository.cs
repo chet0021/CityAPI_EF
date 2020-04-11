@@ -8,31 +8,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CityInfo.API.Services
 {
-    public class CityInfoRepository : IMayorInfoRepository
+    public class MayorInfoRepository
     {
         private readonly CityInfoContext _context;
 
-        public CityInfoRepository(CityInfoContext context)
+        public MayorInfoRepository(CityInfoContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public IEnumerable<City> GetCities()
+        public IEnumerable<City> GetMayors()
         {
             return _context.City.OrderBy(c => c.Name).ToList();
         }
 
-        public City GetCity(int cityId, bool includePointsOfInterest)
-        {
-            if (includePointsOfInterest)
-            {
-                return _context.City.Include(c => c.PointsOfInterest)
-                    .Where(c => c.Id == cityId).FirstOrDefault();
-            }
-
-            return _context.City
-					.Where(c => c.Id == cityId).FirstOrDefault();
-        }
+        
 
         public PointOfInterest GetPointOfInterestForCity(int cityId, int pointOfInterestId)
         {
@@ -51,10 +41,10 @@ namespace CityInfo.API.Services
             return _context.City.Any(c => c.Id == cityId);
         }
 
-        public void AddPointOfInterestForCity(int cityId, PointOfInterest pointOfInterest)
+        
+        private object GetCity(int cityId, bool v)
         {
-            var city = GetCity(cityId, false);
-            city.PointsOfInterest.Add(pointOfInterest);
+            throw new NotImplementedException();
         }
 
         public void UpdatePointOfInterestForCity(int cityId, PointOfInterest pointOfInterest)
@@ -72,25 +62,17 @@ namespace CityInfo.API.Services
             return (_context.SaveChanges() >= 0);
         }
 
-		public void CreateCity(City city)
-		{
-			_context.City.Add(city);
-		}
+        
 
-		public void UpdateCity(int cityID, City city)
-		{
-			
-		}
-
-		public void DeleteCity(int cityID)
-		{
-			var entity = _context.City.FirstOrDefault(c => c.Id == cityID);
-			_context.City.Remove(entity);
-		}
-
-        public void CreateCity(Mayor entityMayor)
+        public void UpdateCity(int cityID, City city)
         {
-            throw new NotImplementedException();
+
+        }
+
+        public void DeleteMayor(int mayorID)
+        {
+            var entity = _context.City.FirstOrDefault(c => c.Id == mayorID);
+            _context.City.Remove(entity);
         }
     }
 }

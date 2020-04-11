@@ -10,8 +10,9 @@ namespace CityInfo.API.Contexts
 	public class CityInfoContext : DbContext
 	{
 		public DbSet<City> City { get; set; }
-		public DbSet<PointOfInterest> PointsOfInterest { get; set; }
 		public DbSet<Mayor> Mayor { get; set; }
+		public DbSet<PointOfInterest> PointsOfInterest { get; set; }
+
 		public CityInfoContext(DbContextOptions<CityInfoContext> options)
 		   : base(options)
 		{
@@ -25,21 +26,23 @@ namespace CityInfo.API.Contexts
 				new Mayor()
 				{
 					Id = 1,
-					Name = "Vico Sotto",
+					Name = "Isko Moreno",
 					Age = 45,
 				},
 				new Mayor()
 				{
 					Id = 2,
-					Name = "Oca Malapitan",
-					Age = 55,
+					Name = "Vico Sotto",
+					Age = 29,
 				},
 				new Mayor()
 				{
 					Id = 3,
-					Name = "Isko Moreno",
-					Age = 43,
+					Name = "Oca Malapitan",
+					Age = 56,
 				});
+
+
 			modelBuilder.Entity<City>()
 				 .HasData(
 				new City()

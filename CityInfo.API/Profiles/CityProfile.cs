@@ -11,7 +11,7 @@ namespace CityInfo.API.Profiles
         public CityProfile()
         {
             CreateMap<Entities.City, Models.CityWithoutPointsOfInterestDto>();
-            CreateMap<Entities.City, Models.CityDto>();
+            CreateMap<Entities.City, Models.MayorDTO>();
 			CreateMap<Models.CityDetailsDto, Entities.City>();
 		}
     }

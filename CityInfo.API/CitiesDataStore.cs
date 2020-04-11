@@ -10,14 +10,14 @@ namespace CityInfo.API
     {
         public static CitiesDataStore Current { get; } = new CitiesDataStore();
 
-        public List<CityDto> Cities { get; set; }
+        public List<MayorDTO> Cities { get; set; }
 
         public CitiesDataStore()
         {
             // init dummy data
-            Cities = new List<CityDto>()
+            Cities = new List<MayorDTO>()
             {
-                new CityDto()
+                new MayorDTO()
                 {
                      Id = 1,
                      Name = "New York City",
@@ -34,7 +34,7 @@ namespace CityInfo.API
                              Description = "A 102-story skyscraper located in Midtown Manhattan." },
                      }
                 },
-                new CityDto()
+                new MayorDTO()
                 {
                     Id = 2,
                     Name = "Antwerp",
@@ -51,7 +51,7 @@ namespace CityInfo.API
                              Description = "The the finest example of railway architecture in Belgium." },
                      }
                 },
-                new CityDto()
+                new MayorDTO()
                 {
                     Id= 3,
                     Name = "Paris",
