@@ -11,7 +11,7 @@ namespace CityInfo.API.Contexts
 	{
 		public DbSet<City> City { get; set; }
 		public DbSet<PointOfInterest> PointsOfInterest { get; set; }
-
+		public DbSet<Mayor> Mayor { get; set; }
 		public CityInfoContext(DbContextOptions<CityInfoContext> options)
 		   : base(options)
 		{
@@ -20,6 +20,26 @@ namespace CityInfo.API.Contexts
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			modelBuilder.Entity<Mayor>()
+				 .HasData(
+				new Mayor()
+				{
+					Id = 1,
+					Name = "Vico Sotto",
+					Age = 45,
+				},
+				new Mayor()
+				{
+					Id = 2,
+					Name = "Oca Malapitan",
+					Age = 55,
+				},
+				new Mayor()
+				{
+					Id = 3,
+					Name = "Isko Moreno",
+					Age = 43,
+				});
 			modelBuilder.Entity<City>()
 				 .HasData(
 				new City()
