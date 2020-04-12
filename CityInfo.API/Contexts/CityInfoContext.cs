@@ -11,6 +11,7 @@ namespace CityInfo.API.Contexts
 	{
 		public DbSet<City> City { get; set; }
 		public DbSet<PointOfInterest> PointsOfInterest { get; set; }
+		public DbSet<Mayor> Mayor { get; set; }
 
 		public CityInfoContext(DbContextOptions<CityInfoContext> options)
 		   : base(options)
@@ -88,6 +89,28 @@ namespace CityInfo.API.Contexts
 					Description = "Park of Rizal"
 				}
 				);
+
+			modelBuilder.Entity<Mayor>()
+				.HasData(
+			   new Mayor()
+			   {
+				   Id = 1,
+				   Name = "John Doe",
+				   Age = 42,
+			   },
+			   new Mayor()
+			   {
+				   Id = 2,
+				   Name = "Ervin Night",
+				   Age = 47,
+			   },
+			   new Mayor()
+			   {
+				   Id = 3,
+				   Name = "Charles Cruz",
+				   Age = 53,
+			   });
+
 
 			base.OnModelCreating(modelBuilder);
 		}
