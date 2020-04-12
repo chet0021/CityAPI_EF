@@ -8,69 +8,72 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CityInfo.API.Services
 {
-    public class CityInfoRepository : ICityInfoRepository
-    {
-        private readonly CityInfoContext _context;
+	public class CityInfoRepository : ICityInfoRepository
+	{
+		private readonly CityInfoContext _context;
 
-        public CityInfoRepository(CityInfoContext context)
-        {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-        }
+		public CityInfoRepository(CityInfoContext context)
+		{
+			_context = context ?? throw new ArgumentNullException(nameof(context));
+		}
 
-        public IEnumerable<City> GetCities()
-        {
-            return _context.City.OrderBy(c => c.Name).ToList();
-        }
+		public IEnumerable<City> GetCities()
+		{
+			return _context.City
+				.Include(c => c.Mayor)
+				.Include(c => c.PointsOfInterest)
+				.OrderBy(c => c.Name).ToList();
+		}
 
-        public City GetCity(int cityId, bool includePointsOfInterest)
-        {
-            if (includePointsOfInterest)
-            {
-                return _context.City.Include(c => c.PointsOfInterest)
-                    .Where(c => c.Id == cityId).FirstOrDefault();
-            }
-
-            return _context.City
+		public City GetCity(int cityId, bool includePointsOfInterest)
+		{
+			if (includePointsOfInterest)
+			{
+				return _context.City.Include(c => c.PointsOfInterest)
 					.Where(c => c.Id == cityId).FirstOrDefault();
-        }
+			}
 
-        public PointOfInterest GetPointOfInterestForCity(int cityId, int pointOfInterestId)
-        {
-            return _context.PointsOfInterest
-               .Where(p => p.CityId == cityId && p.Id == pointOfInterestId).FirstOrDefault();
-        }
+			return _context.City
+					.Where(c => c.Id == cityId).FirstOrDefault();
+		}
 
-        public IEnumerable<PointOfInterest> GetPointsOfInterestForCity(int cityId)
-        {
-            return _context.PointsOfInterest
-                          .Where(p => p.CityId == cityId).ToList();
-        }
+		public PointOfInterest GetPointOfInterestForCity(int cityId, int pointOfInterestId)
+		{
+			return _context.PointsOfInterest
+			   .Where(p => p.CityId == cityId && p.Id == pointOfInterestId).FirstOrDefault();
+		}
 
-        public bool CityExists(int cityId)
-        {
-            return _context.City.Any(c => c.Id == cityId);
-        }
+		public IEnumerable<PointOfInterest> GetPointsOfInterestForCity(int cityId)
+		{
+			return _context.PointsOfInterest
+						  .Where(p => p.CityId == cityId).ToList();
+		}
 
-        public void AddPointOfInterestForCity(int cityId, PointOfInterest pointOfInterest)
-        {
-            var city = GetCity(cityId, false);
-            city.PointsOfInterest.Add(pointOfInterest);
-        }
+		public bool CityExists(int cityId)
+		{
+			return _context.City.Any(c => c.Id == cityId);
+		}
 
-        public void UpdatePointOfInterestForCity(int cityId, PointOfInterest pointOfInterest)
-        {
+		public void AddPointOfInterestForCity(int cityId, PointOfInterest pointOfInterest)
+		{
+			var city = GetCity(cityId, false);
+			city.PointsOfInterest.Add(pointOfInterest);
+		}
 
-        }
+		public void UpdatePointOfInterestForCity(int cityId, PointOfInterest pointOfInterest)
+		{
 
-        public void DeletePointOfInterest(PointOfInterest pointOfInterest)
-        {
-            _context.PointsOfInterest.Remove(pointOfInterest);
-        }
+		}
 
-        public bool Save()
-        {
-            return (_context.SaveChanges() >= 0);
-        }
+		public void DeletePointOfInterest(PointOfInterest pointOfInterest)
+		{
+			_context.PointsOfInterest.Remove(pointOfInterest);
+		}
+
+		public bool Save()
+		{
+			return (_context.SaveChanges() >= 0);
+		}
 
 		public void CreateCity(City city)
 		{
@@ -79,7 +82,7 @@ namespace CityInfo.API.Services
 
 		public void UpdateCity(int cityID, City city)
 		{
-			
+
 		}
 
 		public void DeleteCity(int cityID)

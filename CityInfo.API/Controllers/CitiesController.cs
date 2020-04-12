@@ -61,7 +61,7 @@ namespace CityInfo.API.Controllers
 				return Ok(_mapper.Map<CityDto>(city));
 			}
 
-			return Ok(_mapper.Map<CityDto>(city));
+			return Ok(_mapper.Map<CityDetailsDto>(city));
 		}
 
 		[HttpPost]
@@ -70,6 +70,24 @@ namespace CityInfo.API.Controllers
 			try
 			{
 				var entityCity = _mapper.Map<City>(cityDTO);
+				_cityInfoRepository.CreateCity(entityCity);
+				_cityInfoRepository.Save();
+				return Ok();
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+
+		}
+
+		[Route("CreateCityMayor")]
+		[HttpPost]
+		public IActionResult CreateCityMayor([FromBody] CityMayorDTO cityMayorDTO)
+		{
+			try
+			{
+				var entityCity = _mapper.Map<City>(cityMayorDTO);
 				_cityInfoRepository.CreateCity(entityCity);
 				_cityInfoRepository.Save();
 				return Ok();
@@ -115,9 +133,6 @@ namespace CityInfo.API.Controllers
 			{
 				return BadRequest(ex.Message);
 			}
-
 		}
-
-
 	}
 }
