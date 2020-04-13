@@ -13,7 +13,9 @@ namespace CityInfo.API.Models
 
         [Required(ErrorMessage = "Name is required")]
         [MaxLength(200)]
-        public string MayorName { get; set; }
+        public string Name { get; set; }
+
+        public char Gender { get; set; }
 
         [Required(ErrorMessage = "Age is required")]
         [Range(40, 100, ErrorMessage = "Underage being a mayor")]

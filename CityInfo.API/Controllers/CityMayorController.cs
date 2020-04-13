@@ -37,34 +37,45 @@ namespace CityInfo.API.Controllers
 
         //api/cities/mayors
         [HttpPost]
-        public IActionResult AddMayors(CityMayor mayor)
+        public IActionResult AddMayors([FromBody] Mayor mayor)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                var mayors = _mapper.Map<Mayor>(mayor);
+                _mayorInfoRepository.CreateMayor(mayors);
+                _mayorInfoRepository.Save();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
 
-            var mayors = _mapper.Map<Mayor>(mayor);
-            _mayorInfoRepository.CreateMayor(mayors);
-            _mayorInfoRepository.Save();
-
-            return Ok();
         }
         ///breakpoint
         //api/cities/mayors/{id}
         [HttpPut("{id}")]
-        public IActionResult UpdateMayor(int id, CityMayor mayor)
+        public IActionResult UpdateMayor(int id, Mayor mayor)
         {
-            var entityMayor = _mayorInfoRepository.GetCtMayors(id);
-            if (entityMayor == null)
+            try
             {
-                return NotFound();
+                var entityMayor = _mayorInfoRepository.GetCtMayors(id);
+                if (entityMayor == null)
+                {
+                    return NotFound();
+                }
+
+                _mapper.Map(mayor, entityMayor);
+                _mayorInfoRepository.UpdateMayor(id, entityMayor);
+                _mayorInfoRepository.Save();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
 
-            _mapper.Map(mayor, entityMayor);
-            _mayorInfoRepository.UpdateMayor(id, entityMayor);
-            _mayorInfoRepository.Save();
-            return Ok();
         }
 
         //api/cities/mayors/{mayorName}
