@@ -96,22 +96,36 @@ namespace CityInfo.API.Contexts
 					Id = 1,
 					Name = "Isko Moreno",
 					Age = 45,
-					Nickname = "Yorme"
+					Nickname = "Yorme",
+					Gender ="M"
 				},
 				new Mayor()
 				{
 					Id = 2,
 					Name = "Vicco Sotto",
 					Age = 45,
-					Nickname = "Vivico"
+					Nickname = "Vivico",
+					Gender="M"
 				},
 				new Mayor()
 				{
 					Id = 3,
 					Name = "Marcy Teodoro",
 					Age = 44,
-					Nickname = "Marcy"
-				});
+					Nickname = "Marcy",
+					Gender="M"
+
+				},
+				new Mayor()
+				{
+					Id = 4,
+					Name = "Joy Belmonte",
+					Age = 50,
+					Nickname = "No Joy",
+					Gender = "F"
+				}
+				);
+				
 
 			base.OnModelCreating(modelBuilder);
 		}

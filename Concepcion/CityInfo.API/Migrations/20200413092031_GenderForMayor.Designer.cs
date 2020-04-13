@@ -3,14 +3,16 @@ using CityInfo.API.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CityInfo.API.Migrations
 {
     [DbContext(typeof(CityInfoContext))]
-    partial class CityInfoContextModelSnapshot : ModelSnapshot
+    [Migration("20200413092031_GenderForMayor")]
+    partial class GenderForMayor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,10 +68,9 @@ namespace CityInfo.API.Migrations
                     b.ToTable("Mayor");
 
                     b.HasData(
-                        new { Id = 1, Age = 45, Gender = "M", Name = "Isko Moreno", Nickname = "Yorme" },
-                        new { Id = 2, Age = 45, Gender = "M", Name = "Vicco Sotto", Nickname = "Vivico" },
-                        new { Id = 3, Age = 44, Gender = "M", Name = "Marcy Teodoro", Nickname = "Marcy" },
-                        new { Id = 4, Age = 50, Gender = "F", Name = "Joy Belmonte", Nickname = "No Joy" }
+                        new { Id = 1, Age = 45, Name = "Isko Moreno", Nickname = "Yorme" },
+                        new { Id = 2, Age = 45, Name = "Vicco Sotto", Nickname = "Vivico" },
+                        new { Id = 3, Age = 44, Name = "Marcy Teodoro", Nickname = "Marcy" }
                     );
                 });
 

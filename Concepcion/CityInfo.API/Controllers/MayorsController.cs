@@ -10,6 +10,7 @@ using CityInfo.API.Entities;
 using CityInfo.API.Models;
 using CityInfo.API.Services;
 using AutoMapper;
+using System.Text.RegularExpressions;
 
 namespace CityInfo.API.Controllers
 {
@@ -32,12 +33,25 @@ namespace CityInfo.API.Controllers
         }
 
         [HttpGet(Name = "GetMayors")]
-		public IActionResult GetMayors()
+		public IActionResult GetMayors([FromQuery] string gender, [FromQuery] string name)
 		{
-			var mayorEntities = _cityInfoRepository.GetMayors();
-
-		
-			return Ok(_mapper.Map<IEnumerable<MayorDTO>>(mayorEntities));
+            
+            if (gender != null&&name==null)
+            {
+               var gmayorEntities =  _cityInfoRepository.GetMayors().Where(m => m.Gender == gender);
+                return Ok(_mapper.Map<IEnumerable<MayorDTO>>(gmayorEntities));
+            }
+            else if(gender==null&&name!=null)
+            {
+                var nospacename = Regex.Replace(name, @"\s+", "").ToLower();
+                var nmayorEntities = _cityInfoRepository.GetMayors().Where(m => Regex.Replace(m.Name, @"\s+", "").ToLower().Contains(nospacename));
+                return Ok(_mapper.Map<IEnumerable<MayorDTO>>(nmayorEntities));
+            }
+            else
+            {
+                var mayorEntities = _cityInfoRepository.GetMayors();
+                return Ok(_mapper.Map<IEnumerable<MayorDTO>>(mayorEntities));
+            }
 		}
 
      

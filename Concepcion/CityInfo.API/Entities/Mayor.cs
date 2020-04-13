@@ -20,5 +20,7 @@ namespace CityInfo.API.Entities
         [Required]
         [MaxLength(20)]
         public string Nickname { get; set; }
+        [MaxLength(1)]
+        public string Gender { get; set; }
     }
 }
