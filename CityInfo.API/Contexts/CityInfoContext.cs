@@ -9,19 +9,16 @@ namespace CityInfo.API.Contexts
 {
 	public class CityInfoContext : DbContext
 	{
-		public DbSet<City> City { get; set; }
-		public DbSet<PointOfInterest> PointsOfInterest { get; set; }
+		public DbSet<City> Cities { get; set; }
+		public DbSet<PointOfInterest> PointOfInterests { get; set; }
+		public DbSet<Mayor> Mayors { get; set; }
 
-		public CityInfoContext(DbContextOptions<CityInfoContext> options)
-		   : base(options)
-		{
-			//  Database.EnsureCreated();
-		}
+		public CityInfoContext(DbContextOptions options) : base(options) { }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<City>()
-				 .HasData(
+				.HasData(
 				new City()
 				{
 					Id = 1,
@@ -41,9 +38,8 @@ namespace CityInfo.API.Contexts
 					Description = "Capital of the Philippines",
 				});
 
-
 			modelBuilder.Entity<PointOfInterest>()
-			  .HasData(
+				.HasData(
 				new PointOfInterest()
 				{
 					Id = 1,
@@ -86,17 +82,34 @@ namespace CityInfo.API.Contexts
 					CityId = 3,
 					Name = "Rizal Park",
 					Description = "Park of Rizal"
-				}
+				});
+
+			modelBuilder.Entity<Mayor>()
+				.HasData(
+					new Mayor()
+					{
+						Id = 1,
+						Name = "Vico Sotto",
+						Age = 32,
+						CityId = 1
+					},
+					new Mayor()
+					{
+						Id = 2,
+						Name = "Abby Binay",
+						Age = 38,
+						CityId = 2
+					},
+					new Mayor()
+					{
+						Id = 3,
+						Name = "Isko Moreno",
+						Age = 45,
+						CityId = 3
+					}
 				);
 
 			base.OnModelCreating(modelBuilder);
 		}
-
-		//protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-		//{
-		//    optionsBuilder.UseSqlServer("connectionstring");
-		//    base.OnConfiguring(optionsBuilder);
-		//}
-
 	}
 }

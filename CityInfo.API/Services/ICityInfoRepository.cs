@@ -1,34 +1,21 @@
 ﻿using CityInfo.API.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CityInfo.API.Services
 {
     public interface ICityInfoRepository
     {
-        IEnumerable<City> GetCities();
-
-        City GetCity(int cityId, bool includePointsOfInterest);
-
-        IEnumerable<PointOfInterest> GetPointsOfInterestForCity(int cityId);
-
-        PointOfInterest GetPointOfInterestForCity(int cityId, int pointOfInterestId);
-
-        bool CityExists(int cityId);
-
         void AddPointOfInterestForCity(int cityId, PointOfInterest pointOfInterest);
-
-        void UpdatePointOfInterestForCity(int cityId, PointOfInterest pointOfInterest);
-
+        bool CityExists(int cityId);
+        void CreateCity(City city);
+        void DeleteCity(int cityId);
         void DeletePointOfInterest(PointOfInterest pointOfInterest);
-
+        IEnumerable<City> GetCities();
+        City GetCity(int cityId, bool includePointOfInterest);
+        PointOfInterest GetPointOfInterestForCity(int cityId, int pointOfInterestId);
+        IEnumerable<PointOfInterest> GetPointOfInterestsForCity(int cityId);
         bool Save();
-
-		void CreateCity(City city);
-
-		void UpdateCity(int cityID, City city);
-		void DeleteCity(int cityID);
-	}
+        void UpdateCity(int cityId, City city);
+        void UpdatePointOfInterestForCity(int cityId, PointOfInterest pointOfInterest);
+    }
 }

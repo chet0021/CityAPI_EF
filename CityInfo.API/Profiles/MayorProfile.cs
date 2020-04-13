@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using CityInfo.API.Entities;
+using CityInfo.API.Models;
 
 namespace CityInfo.API.Profiles
 {
@@ -10,9 +8,8 @@ namespace CityInfo.API.Profiles
     {
         public MayorProfile()
         {
-            CreateMap<Entities.Mayor, Models.MayorDto>();
-            CreateMap<Entities.Mayor, Models.MayorDto>();
-            CreateMap<Models.CityDto, Entities.Mayor>();
+            CreateMap<Mayor, MayorDto>();
+            CreateMap<MayorDetailsDto, Mayor>();
         }
     }
 }

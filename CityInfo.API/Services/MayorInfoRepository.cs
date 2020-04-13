@@ -1,109 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CityInfo.API.Contexts;
+﻿using CityInfo.API.Contexts;
 using CityInfo.API.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CityInfo.API.Services
 {
-    public class MayorInfoRepository : IMayorInfoRepository
+    public class MayorRepository : IMayorRepository
     {
-        private readonly MayorContext _context;
-        private bool includeCity;
+        private readonly CityInfoContext _context;
 
-        public MayorInfoRepository(MayorContext context)
+        public MayorRepository(CityInfoContext context)
         {
-            _context = context ?? throw new ArgumentException(nameof(context));
+            _context = context;
         }
+
         public IEnumerable<Mayor> GetMayors()
         {
-            return _context.Mayor.OrderBy(m => m.Id).ToList();
-        }
-        public Mayor GetMayor(int mayorId, bool includeCity)
-        {
-            if (includeCity)
-            {
-                return _context.Mayor.Include(m => m.Id == mayorId).Where(m => m.Id == mayorId).FirstOrDefault();
-            }
-            return _context.Mayor.Where(m => m.Id == mayorId).FirstOrDefault();
-        }
-        public City GetCityMayor(int mayorId, int cityId)
-        {
-            return _context.City.Where(c => c.MayorId == mayorId && c.Id == cityId).FirstOrDefault();
-        }
-        public IEnumerable<City> GetCityMayor(int mayorId)
-        {
-            return _context.City.Where(c => c.Id == mayorId);
-        }
-        public void AddCityMayor(int mayorId, City city)
-        {
-            var mayor = GetMayor(mayorId, false);
-            mayor.City.Add(city);
-        }
-        public void UpdateCityMayor(int MyorId, City city)
-        {
-
+            return _context.Mayors
+                .Include(m => m.City)
+                .OrderByDescending(m => m.Name)
+                .ToList();
         }
 
-        public void DeleteCity(City city)
+        public Mayor GetMayor(int mayorId)
         {
-            _context.City.Remove(city);
-        }
-        public bool Save()
-        {
-            return (_context.SaveChanges() >= 0);
-        }
-
-        public void CreateMayor(Mayor mayor)
-        {
-            _context.Mayor.Add(mayor);
+            return _context.Mayors
+                .Include(m => m.City)
+                .Where(m => m.Id == mayorId)
+                .FirstOrDefault();
         }
 
-        public void UpdateMayor(int mayorID, Mayor mayor)
+        public bool IsMayorExists(int mayorId)
         {
-
-        }
-        public void DeleteMayor(int mayorID)
-        {
-            var entity = _context.Mayor.FirstOrDefault(c => c.Id == mayorID);
-            _context.Mayor.Remove(entity);
-        }
-        ////////////////////////////////////////////////////////////////////
-        ///
-        public Mayor GetMayorCity(int mayorId, bool IncludeCity)
-        {
-            if (includeCity)
-            {
-                return _context.Mayor.Include(m => m.Id == mayorId).Where(m => m.Id == mayorId).FirstOrDefault();
-            }
-            return _context.Mayor.Where(m => m.Id == mayorId).FirstOrDefault();
+            return _context.Mayors.Any(m => m.Id == mayorId);
         }
 
-        public IEnumerable<City> GetMayorCity(int mayorId)
+        public void AddMayor(Mayor mayor)
         {
-            throw new NotImplementedException();
+            _context.Mayors.Add(mayor);
         }
 
-        public City GetMayorCity(int mayorId, int cityId)
+        public void UpdateMayor(int mayorId, Mayor updateMayor)
         {
-            throw new NotImplementedException();
+            var mayor = _context.Mayors.Where(m => m.Id == mayorId).FirstOrDefault();
         }
 
-        public void Deletecity(City city)
+        public void DeleteMayor(int mayorId)
         {
-            throw new NotImplementedException();
+            var mayor = _context.Mayors.Where(m => m.Id == mayorId).FirstOrDefault();
+
+            _context.SaveChanges();
         }
 
-        object IMayorInfoRepository.GetMayor(int id, bool includeCity)
+        public void Save()
         {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateMayor(int mayorID, object entityMayor)
-        {
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
     }
 }

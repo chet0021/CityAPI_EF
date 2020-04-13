@@ -1,81 +1,92 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
 using CityInfo.API.Entities;
 using CityInfo.API.Models;
 using CityInfo.API.Services;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CityInfo.API.Controllers
 {
-    [Route("api/Mayor")]
     [ApiController]
-    public class MayorController : ControllerBase
+    [Route("api/mayors")]
+    public class MayorsController : ControllerBase
     {
-        private readonly IMayorInfoRepository _mayorInfoRepository;
+        private readonly IMayorRepository _mayorRepository;
         private readonly IMapper _mapper;
-        
-        public MayorController(IMayorInfoRepository mayorInfoRepository, IMapper mapper)
+
+        public MayorsController(IMayorRepository mayorRepository, IMapper mapper)
         {
-            _mayorInfoRepository = mayorInfoRepository ?? throw new ArgumentNullException(nameof(mayorInfoRepository));
+            _mayorRepository = mayorRepository ?? throw new ArgumentNullException(nameof(mayorRepository));
+
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-           
         }
-        [HttpGet(Name = "GetMayors")]
+
+        [HttpGet]
         public IActionResult GetMayors()
         {
-            var mayorEntities = _mayorInfoRepository.GetMayors();
-            return Ok(_mapper.Map<IEnumerable<MayorDto>>(mayorEntities));
+            var mayors = _mayorRepository.GetMayors();
+
+            return Ok(_mapper.Map<IEnumerable<MayorDto>>(mayors));
         }
+
         [HttpGet("{id}")]
-        public IActionResult GetMayor(int id, bool includeCity = false)
+        public IActionResult GetMayor(int id)
         {
-            var mayor = _mayorInfoRepository.GetMayor(id, includeCity);
-
-            if (mayor == null)
-            {
-                return NotFound();
-            }
-
-            if (includeCity)
-            {
-                return Ok(_mapper.Map<MayorDto>(mayor));
-            }
+            var mayor = _mayorRepository.GetMayor(id);
 
             return Ok(_mapper.Map<MayorDto>(mayor));
         }
+
         [HttpPost]
-        public IActionResult CreateMayor([FromBody] MayorDto mayorDTO)
+        public IActionResult CreateMayor([FromBody] MayorDetailsDto mayorDto)
         {
             try
             {
-                var entityMayor = _mapper.Map<Mayor>(mayorDTO);
-                _mayorInfoRepository.CreateMayor(entityMayor);
-                _mayorInfoRepository.Save();
+                var entityMayor = _mapper.Map<Mayor>(mayorDto);
+                _mayorRepository.AddMayor(entityMayor);
+                _mayorRepository.Save();
+
+                return Ok();
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{mayorId}")]
+        public IActionResult UpdateMayor([FromBody] MayorDetailsDto mayorDto, int mayorId)
+        {
+            try
+            {
+                var entityMayor = _mayorRepository.GetMayor(mayorId);
+
+                if (entityMayor == null) return NotFound();
+
+                _mapper.Map(mayorDto, entityMayor);
+                _mayorRepository.UpdateMayor(mayorId, entityMayor);
+                _mayorRepository.Save();
+
                 return Ok();
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
         }
-        [HttpPut("{mayorID}")]
-        public IActionResult UpdateMayor(int mayorID, [FromBody] MayorDto mayorDTO)
+
+        [HttpDelete("{mayorId}")]
+        public IActionResult DeleteMayor(int mayorId)
         {
             try
             {
-                var entityMayor = _mayorInfoRepository.GetMayor(mayorID, false);
-                if (entityMayor == null)
-                {
-                    return NotFound();
-                }
-                _mapper.Map(mayorDTO, entityMayor);
-                _mayorInfoRepository.UpdateMayor(mayorID, entityMayor);
-                _mayorInfoRepository.Save();
+                _mayorRepository.DeleteMayor(mayorId);
+                _mayorRepository.Save();
+
                 return Ok();
             }
             catch (Exception ex)
@@ -83,21 +94,5 @@ namespace CityInfo.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpDelete("{mayorID}")]
-        public IActionResult DeleteMayor(int mayorID)
-        {
-            try
-            {
-                _mayorInfoRepository.DeleteMayor(mayorID);
-                _mayorInfoRepository.Save();
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-        }
-
     }
 }
