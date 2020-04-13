@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CityInfo.API.Contexts;
 using CityInfo.API.Services;
+using mayorInfo.API.Services;
+using MayorInfo.API.Contexts;
+using MayorInfo.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -48,13 +51,23 @@ namespace CityInfo.API
 #else
             services.AddTransient<IMailService, CloudMailService>();
 #endif
-            var connectionString = _configuration["connectionStrings:cityInfoDBConnectionString"];
-            services.AddDbContext<CityInfoContext>(o =>
+            //var connectionString = _configuration["connectionStrings:cityInfoDBConnectionString"];
+            //services.AddDbContext<CityInfoContext>(o =>
+            //{
+            //    o.UseSqlServer(connectionString);
+            //});
+
+            //services.AddScoped<ICityInfoRepository, CityInfoRepository>();
+
+            //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            var connectionString = _configuration["connectionStrings:mayorInfoDBConnectionString"];
+            services.AddDbContext<MayorInfoContext>(o =>
             {
                 o.UseSqlServer(connectionString);
             });
 
-            services.AddScoped<ICityInfoRepository, CityInfoRepository>();
+            services.AddScoped<IMayorInfoRepository, MayorInfoRepository>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CityInfo.API.Contexts;
+using MayorInfo.API.Contexts;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +32,7 @@ namespace CityInfo.API
                 {
                     try
                     {
-                        var context = scope.ServiceProvider.GetService<CityInfoContext>();
+                        var context = scope.ServiceProvider.GetService<MayorInfoContext>();
 
                         // for demo purposes, delete the database & migrate on startup so 
                         // we can start with a clean slate

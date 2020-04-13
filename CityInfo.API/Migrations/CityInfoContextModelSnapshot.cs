@@ -33,7 +33,7 @@ namespace CityInfo.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities");
+                    b.ToTable("City");
 
                     b.HasData(
                         new { Id = 1, Description = "Business center in the North", Name = "Pasig City" },
