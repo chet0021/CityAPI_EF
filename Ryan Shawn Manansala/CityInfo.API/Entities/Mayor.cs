@@ -18,7 +18,8 @@ namespace CityInfo.API.Entities
 
         [Range(40, 100, ErrorMessage = "Mayor is underage")]
         public int Age { get; set; }
+        [MaxLength(1)]
+        public string Gender { get; set; }
 
-        
     }
 }

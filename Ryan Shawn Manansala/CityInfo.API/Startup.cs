@@ -47,12 +47,15 @@ namespace CityInfo.API
             services.AddTransient<IMailService, LocalMailService>();
 #else
             services.AddTransient<IMailService, CloudMailService>();
+
 #endif
-            var connectionString = _configuration["connectionStrings:cityInfoDBConnectionString"];
-            services.AddDbContext<CityInfoContext>(o =>
+            var connectionString = _configuration["connectionStrings:mayorInfoDBConnectionString"];
+            services.AddDbContext<MayorInfoContext>(o =>
             {
                 o.UseSqlServer(connectionString);
             });
+
+            services.AddScoped<IMayorInfoRepository, MayorInfoRepository>();
 
             services.AddScoped<ICityInfoRepository, CityInfoRepository>();
 

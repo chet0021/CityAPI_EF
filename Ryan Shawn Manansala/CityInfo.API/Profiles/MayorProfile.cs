@@ -12,6 +12,7 @@ namespace CityInfo.API.Profiles
         public MayorProfile()
         {
             CreateMap<Entities.Mayor, Models.MayorDTO>();
+            CreateMap<Models.MayorDTO, Entities.Mayor>();
         }
     }
 }

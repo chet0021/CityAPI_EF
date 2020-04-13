@@ -25,13 +25,15 @@ namespace CityInfo.API.Contexts
                 {
                     Id = 1,
                     Name = "Isko Moreno",
-                    Age = 45
+                    Age = 45,
+                    Gender = "M"
                 },
                 new Mayor()
                 {
                     Id = 2,
                     Name = "Francis Zamora",
-                    Age = 42
+                    Age = 42,
+                    Gender = "M"
                 }
                 );
 

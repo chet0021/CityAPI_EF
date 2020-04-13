@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CityInfo.API.Entities;
 using CityInfo.API.Models;
+using CityInfo.API.Parameters;
 using CityInfo.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,9 +29,11 @@ namespace CityInfo.API.Controllers
 		}
 
 		[HttpGet(Name = "GetMayors")]
-		public IActionResult GetMayors()
+		public IActionResult GetMayors([FromQuery] MayorParameters mayorParameters)
 		{
-			var mayorEntities = _mayorInfoRepository.GetMayors();
+			var mayorEntities = _mayorInfoRepository.GetMayors(mayorParameters);
+
+			
 
 			//var results = new List<CityWithoutPointsOfInterestDto>();
 

@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\MayorInfo\20200413053825_ryanmigration.cs" />
+    <Compile Remove="Migrations\MayorInfo\20200413053825_ryanmigration.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

@@ -1,5 +1,6 @@
 ﻿using CityInfo.API.Contexts;
 using CityInfo.API.Entities;
+using CityInfo.API.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,16 @@ namespace CityInfo.API.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public IEnumerable<Mayor> GetMayors()
+        public IEnumerable<Mayor> GetMayors(MayorParameters mayorParameters)
         {
+            if (!String.IsNullOrEmpty(mayorParameters.Name)) 
+            { 
+                return _context.Mayor.Where(c => c.Name.Contains(mayorParameters.Name));
+            }
+            if (!String.IsNullOrEmpty(mayorParameters.Gender))
+            {
+                return _context.Mayor.Where(c => c.Gender.Equals(mayorParameters.Gender));
+            }
             return _context.Mayor.OrderBy(c => c.Name).ToList();
         }
 
