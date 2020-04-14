@@ -54,6 +54,15 @@ namespace CityInfo.API.Controllers
 		{
 			try
 			{
+				if (mayorDTO.Age < 40)
+				{
+					ModelState.AddModelError("Age", "Mayor is Underage");
+				}
+
+				if (!ModelState.IsValid)
+				{
+					return BadRequest(ModelState);
+				}
 				var entityMayor = _mapper.Map<Mayor>(mayorDTO);
 				_mayorInfoRepository.CreateMayor(entityMayor);
 				_mayorInfoRepository.Save();
@@ -70,6 +79,16 @@ namespace CityInfo.API.Controllers
 		{
 			try
 			{
+				if (mayorDTO.Age < 40)
+				{
+					ModelState.AddModelError("Age", "Mayor is Underage");
+				}
+
+				if (!ModelState.IsValid)
+				{
+					return BadRequest(ModelState);
+				}
+
 				var entityMayor = _mayorInfoRepository.GetMayor(mayorId);
 				if (entityMayor == null)
 				{
