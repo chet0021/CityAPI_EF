@@ -28,12 +28,21 @@ namespace CityInfo.API.Contexts
 					Id = 1,
 					Name = "Mayor Isko Moreno",
 					Age  = 45,
+					Gender = "M",
 				},
 				new Mayor()
 				{
 					Id = 2,
 					Name = "Mayor Vico Sotto",
-					Age = 30,
+					Age = 40,
+					Gender = "M",
+				},
+				new Mayor()
+				{
+					Id = 3,
+					Name = "Mayor Joy Belmonte",
+					Age = 50,
+					Gender = "F",
 				});
 
 			modelBuilder.Entity<City>()

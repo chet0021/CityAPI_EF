@@ -1,5 +1,6 @@
 ﻿using CityInfo.API.Contexts;
 using CityInfo.API.Entities;
+using CityInfo.API.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,29 @@ namespace CityInfo.API.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public IEnumerable<Mayor> GetMayors()
+        public IEnumerable<Mayor> GetMayors(MayorResources resourceParameter)
         {
-            return _context.Mayor.OrderBy(c => c.Name).ToList();
+            if (string.IsNullOrEmpty(resourceParameter.Gender) && string.IsNullOrEmpty(resourceParameter.NameSearch))
+            {
+                return _context.Mayor.OrderBy(c => c.Name).ToList();
+            }
+            var collection = _context.Mayor as IQueryable<Mayor>;
+
+            if (!string.IsNullOrEmpty(resourceParameter.NameSearch) && string.IsNullOrEmpty(resourceParameter.Gender))
+            {
+                return collection.Where(c => c.Name.Contains(resourceParameter.NameSearch)).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(resourceParameter.Gender) && string.IsNullOrEmpty(resourceParameter.NameSearch))
+            {
+                return collection.Where(c => c.Gender.ToLower() == resourceParameter.Gender.ToLower()).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(resourceParameter.NameSearch))
+            {
+                return collection.Where(c => c.Name.Contains(resourceParameter.Gender) && c.Name.Contains(resourceParameter.NameSearch)).ToList();
+            }
+            return collection;
         }
         public Mayor GetMayor(int mayorId)
         {
