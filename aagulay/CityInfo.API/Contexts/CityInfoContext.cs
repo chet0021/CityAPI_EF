@@ -93,27 +93,31 @@ namespace CityInfo.API.Contexts
 					Id = 1,
 					Name = "Francisco Moreno Domagoso",
 					NickName = "Isko",
-					Age = 45
+					Age = 45,
+					Gender = 'M'
 				},
 				new Mayor() { 
 					Id = 2,
 					Name = "Maria Josefina Tanya Belmonte Alimurung",
 					NickName = "Joy",
-					Age = 50
+					Age = 50,
+					Gender = 'F'
 				},
 				new Mayor()
 				{
 					Id = 3,
 					Name = "Victor María Regis Nubla Sotto",
 					NickName = "Vico",
-					Age = 30
+					Age = 30,
+					Gender = 'M'
 				},
 				new Mayor()
 				{
 					Id = 4,
 					Name = "Mar - len Abigail Binay - Campos",
 					NickName = "Abby",
-					Age = 44
+					Age = 44,
+					Gender = 'F'
 				}
 
 				);

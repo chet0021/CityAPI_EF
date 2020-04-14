@@ -1,12 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200407044832_InsertSampleDate.cs" />
+    <Compile Remove="Migrations\20200407044832_InsertSampleDate.Designer.cs" />
     <Compile Remove="Migrations\20200410054320_Mayor Migration.cs" />
     <Compile Remove="Migrations\20200410054320_Mayor Migration.Designer.cs" />
+    <Compile Remove="Migrations\20200410075435_MayorMigration.cs" />
+    <Compile Remove="Migrations\20200410075435_MayorMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200410092313_MayorMigration.cs" />
+    <Compile Remove="Migrations\20200410092313_MayorMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200413083644_CategoryColumn.cs" />
+    <Compile Remove="Migrations\20200413083644_CategoryColumn.Designer.cs" />
+    <Compile Remove="Migrations\20200413094026_MayorMigration.cs" />
+    <Compile Remove="Migrations\20200413094026_MayorMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200413094500_MayorMigration.cs" />
+    <Compile Remove="Migrations\20200413094500_MayorMigration.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

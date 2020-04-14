@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using CityInfo.API.ResourceParams;
 
 namespace CityInfo.API.Services
 {
@@ -27,12 +28,29 @@ namespace CityInfo.API.Services
             return _context.Mayor.Where(c => c.Id == mayorId).FirstOrDefault();
         }
 
-        public IEnumerable<Mayor> GetMayors()
+        public IEnumerable<Mayor> GetMayors(MayorResourceParameter mayorParameters)
         {
-            return _context.Mayor.OrderBy(c => c.Name).ToList();
+            if (string.IsNullOrEmpty(mayorParameters.NameSearch) && string.IsNullOrEmpty(mayorParameters.GenderFilter.ToString())) {
+
+                return _context.Mayor.OrderBy(c => c.Name).ToList();
+
+            }
+           
+            var collection = _context.Mayor as IQueryable<Mayor>;
+
+            if (!string.IsNullOrEmpty(mayorParameters.NameSearch)){
+                return collection.Where(p => p.Name.Contains(mayorParameters.NameSearch)
+                || p.NickName.Contains(mayorParameters.NameSearch));
+            }
+            if (!string.IsNullOrEmpty(mayorParameters.GenderFilter.ToString())) {
+                collection = collection.Where(p => p.Gender.Equals(mayorParameters.GenderFilter));
+            }
+
+            return collection;
+
         }
 
-        
+
 
         public void RemoveMayor(int mayorId)
         {
@@ -47,10 +65,6 @@ namespace CityInfo.API.Services
 
         public void UpdateMayorInfo(int mayorId, Mayor mayor)
         {
-            var entity = _context.Mayor.FirstOrDefault(c => c.Id == mayorId);
-            entity.Name = mayor.Name;
-            entity.NickName = mayor.NickName;
-            entity.Age = mayor.Age;
         }
     }
 }

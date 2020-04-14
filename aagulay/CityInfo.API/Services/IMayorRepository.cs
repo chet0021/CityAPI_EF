@@ -1,4 +1,5 @@
 ﻿using CityInfo.API.Entities;
+using CityInfo.API.ResourceParams;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace CityInfo.API.Services
 {
     public interface IMayorRepository
     {
-        IEnumerable<Mayor> GetMayors();
+        IEnumerable<Mayor> GetMayors(MayorResourceParameter mayorParamerter);
         Mayor GetMayor(int mayorId);
         void AddMayor(Mayor mayor);
         void UpdateMayorInfo(int mayorId, Mayor mayor);

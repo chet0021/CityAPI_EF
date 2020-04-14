@@ -23,5 +23,7 @@ namespace CityInfo.API.Entities
         [Range(30,90)]
         public int Age { get; set; }
 
+        public char Gender { get; set; }
+
     }
 }

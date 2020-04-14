@@ -12,7 +12,9 @@ namespace CityInfo.API.Models
         public string Name { get; set; }
         [MaxLength(20)]
         public string NickName { get; set; }
-        [Range(30,100)]
+        [Range(21,75)]
         public int Age { get; set; }
+        [MinLength(1)]
+        public char Gender { get; set; }
     }
 }

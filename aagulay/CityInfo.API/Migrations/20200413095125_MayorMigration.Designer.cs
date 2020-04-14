@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CityInfo.API.Migrations
 {
     [DbContext(typeof(CityInfoContext))]
-    [Migration("20200410075435_MayorMigration")]
+    [Migration("20200413095125_MayorMigration")]
     partial class MayorMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,6 +52,10 @@ namespace CityInfo.API.Migrations
 
                     b.Property<int>("Age");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 1)));
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
@@ -64,10 +68,10 @@ namespace CityInfo.API.Migrations
                     b.ToTable("Mayor");
 
                     b.HasData(
-                        new { Id = 1, Age = 45, Name = "Francisco Moreno Domagoso", NickName = "Isko" },
-                        new { Id = 2, Age = 50, Name = "Maria Josefina Tanya Belmonte Alimurung", NickName = "Joy" },
-                        new { Id = 3, Age = 30, Name = "Victor María Regis Nubla Sotto", NickName = "Vico" },
-                        new { Id = 4, Age = 44, Name = "Mar - len Abigail Binay - Campos", NickName = "Abby" }
+                        new { Id = 1, Age = 45, Gender = "M", Name = "Francisco Moreno Domagoso", NickName = "Isko" },
+                        new { Id = 2, Age = 50, Gender = "F", Name = "Maria Josefina Tanya Belmonte Alimurung", NickName = "Joy" },
+                        new { Id = 3, Age = 30, Gender = "M", Name = "Victor María Regis Nubla Sotto", NickName = "Vico" },
+                        new { Id = 4, Age = 44, Gender = "F", Name = "Mar - len Abigail Binay - Campos", NickName = "Abby" }
                     );
                 });
 
@@ -76,6 +80,8 @@ namespace CityInfo.API.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Category");
 
                     b.Property<int>("CityId");
 

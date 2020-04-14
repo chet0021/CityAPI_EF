@@ -11,5 +11,6 @@ namespace CityInfo.API.Models
         public string Name { get; set; }
         public string NickName { get; set; }
         public int Age { get; set; }
+        public char Gender { get; set; }
     }
 }
