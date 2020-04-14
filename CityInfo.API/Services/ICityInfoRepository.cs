@@ -1,4 +1,5 @@
 ﻿using CityInfo.API.Entities;
+using CityInfo.API.ResourceParams;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,10 @@ namespace CityInfo.API.Services
         City GetCity(int cityId, bool includePointsOfInterest);
 
         IEnumerable<PointOfInterest> GetPointsOfInterestForCity(int cityId);
+		IEnumerable<PointOfInterest> GetPointsOfInterestForCity(int cityId, PointOfInterestResourceParameter poiParam);
 
-        PointOfInterest GetPointOfInterestForCity(int cityId, int pointOfInterestId);
+
+		PointOfInterest GetPointOfInterestForCity(int cityId, int pointOfInterestId);
 
         bool CityExists(int cityId);
 

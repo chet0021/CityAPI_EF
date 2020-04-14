@@ -25,5 +25,7 @@ namespace CityInfo.API.Entities
 
         public int CityId { get; set; }
 
-    }
+		public string Category { get; set; }
+
+	}
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CityInfo.API.Contexts;
 using CityInfo.API.Entities;
+using CityInfo.API.ResourceParams;
 using Microsoft.EntityFrameworkCore;
 
 namespace CityInfo.API.Services
@@ -47,6 +48,25 @@ namespace CityInfo.API.Services
 		{
 			return _context.PointsOfInterest
 						  .Where(p => p.CityId == cityId).ToList();
+		}
+
+		public IEnumerable<PointOfInterest> GetPointsOfInterestForCity(int cityId, PointOfInterestResourceParameter poiParam)
+		{
+			if (string.IsNullOrEmpty(poiParam.Category) && string.IsNullOrEmpty(poiParam.SearchText))
+			{
+				return GetPointsOfInterestForCity(cityId);
+			}
+			var collection = _context.PointsOfInterest
+						  .Where(p => p.CityId == cityId) as IQueryable<PointOfInterest>;
+			if (!string.IsNullOrEmpty(poiParam.Category))
+			{
+				collection = collection.Where(p => p.Category.Equals(poiParam.Category));
+			}
+			if (!string.IsNullOrEmpty(poiParam.SearchText))
+			{
+				collection = collection.Where(p => p.Name.Contains(poiParam.SearchText) || p.Description.Contains(poiParam.SearchText));
+			}
+			return collection;
 		}
 
 		public bool CityExists(int cityId)

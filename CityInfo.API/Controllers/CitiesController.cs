@@ -64,22 +64,6 @@ namespace CityInfo.API.Controllers
 			return Ok(_mapper.Map<CityDetailsDto>(city));
 		}
 
-		[HttpPost]
-		public IActionResult CreateCity([FromBody] CityDetailsDto cityDTO)
-		{
-			try
-			{
-				var entityCity = _mapper.Map<City>(cityDTO);
-				_cityInfoRepository.CreateCity(entityCity);
-				_cityInfoRepository.Save();
-				return Ok();
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
-			}
-
-		}
 
 		[Route("CreateCityMayor")]
 		[HttpPost]
@@ -99,15 +83,35 @@ namespace CityInfo.API.Controllers
 
 		}
 
+		[HttpPost]
+		public IActionResult CreateCity([FromBody] CityDetailsDto cityDTO)
+		{
+			try
+			{
+				var entityCity = _mapper.Map<City>(cityDTO);
+				_cityInfoRepository.CreateCity(entityCity);
+				_cityInfoRepository.Save();
+				return Ok();
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+
+		}
+
 		[HttpPut("{cityID}")]
-		public IActionResult UpdateCity(int cityID, [FromBody] CityDetailsDto cityDTO)
+		public IActionResult UpdateCity(int cityID, [FromBody] CityDetailsDTOUpdate cityDTO)
 		{
 			try
 			{
 				var entityCity = _cityInfoRepository.GetCity(cityID, false);
 				if (entityCity == null)
 				{
-					return NotFound();
+					var newEntityCity = _mapper.Map<City>(cityDTO);
+					_cityInfoRepository.CreateCity(newEntityCity);
+					_cityInfoRepository.Save();
+					return Ok();
 				}
 				_mapper.Map(cityDTO, entityCity);
 				_cityInfoRepository.UpdateCity(cityID, entityCity);
@@ -134,5 +138,7 @@ namespace CityInfo.API.Controllers
 				return BadRequest(ex.Message);
 			}
 		}
+
+		
 	}
 }

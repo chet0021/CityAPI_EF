@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace CityInfo.API.Models
 {
-	public class CityDetailsDto : BaseCityDetailsDTO
+	public class CityDetailsDTOUpdate : BaseCityDetailsDTO
 	{
+		[Required]		
+		public override string Description { get => base.Description; set => base.Description = value; }
 	}
 }
